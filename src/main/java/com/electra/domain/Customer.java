@@ -12,12 +12,14 @@ import javax.persistence.*;
 
 public class Customer {
     @Id
+    @ToString.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name" , nullable = false)
     private String name;
 
+    @ToString.Exclude
     @Column(name = "email" , nullable = false , unique = true)
     private String email;
 

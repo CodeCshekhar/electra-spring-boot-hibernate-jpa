@@ -114,3 +114,13 @@ public class YourEntity {
 This setup allows you to use Lombok annotations like `@Data`, `@NoArgsConstructor`, and `@AllArgsConstructor` to automatically generate getters, setters, constructors, and other common methods.
 
 For more information on Lombok, visit [Project Lombok](https://projectlombok.org/).
+
+## Contributors
+
+Thanks to the following people who have contributed to this project:
+
+* [@Chandrashekharwagh](https://github.com/Chandrashekharwagh) 📖
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.

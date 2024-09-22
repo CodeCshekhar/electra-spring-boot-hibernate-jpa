@@ -15,6 +15,7 @@ import javax.persistence.*;
 public class Payment{
 
     @Id
+    @ToString.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 

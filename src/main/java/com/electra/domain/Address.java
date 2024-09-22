@@ -13,6 +13,7 @@ import javax.persistence.*;
 
 public class Address {
     @Id
+    @ToString.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 

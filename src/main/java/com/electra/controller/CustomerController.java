@@ -1,9 +1,6 @@
 package com.electra.controller;
 
-import com.electra.domain.Address;
-import com.electra.domain.Brand;
 import com.electra.domain.Customer;
-import com.electra.service.BrandService;
 import com.electra.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

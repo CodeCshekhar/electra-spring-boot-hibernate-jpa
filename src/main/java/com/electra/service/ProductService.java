@@ -5,6 +5,7 @@ import com.electra.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -15,11 +16,13 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Cacheable("getAllProducts")
     public List<Product> getAllProducts() {
         logger.info("Products Retrieved in Services");
         return productRepository.findAll();
     }
 
+    @Cacheable("getProductById")
     public Product getProductById(Long id) {
         logger.info("Product detected by ID in Services");
         return productRepository.findById(id).orElse(null);
@@ -37,14 +40,14 @@ public class ProductService {
             product.setDescription(updatedProduct.getDescription());
             product.setPrice(updatedProduct.getPrice());
             product.setBrand(updatedProduct.getBrand());
-            logger.info("Payment Updated in Services");
+            logger.info("Product Updated in Services");
             return productRepository.save(product);
         }
         return null;
     }
 
     public void deleteProduct(Long id) {
-        logger.info("Payment deleted");
+        logger.info("Product deleted");
         productRepository.deleteById(id);
     }
 }

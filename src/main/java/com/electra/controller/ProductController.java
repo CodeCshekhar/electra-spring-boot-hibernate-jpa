@@ -1,8 +1,6 @@
 package com.electra.controller;
 
-import com.electra.domain.Payment;
 import com.electra.domain.Product;
-import com.electra.service.PaymentService;
 import com.electra.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

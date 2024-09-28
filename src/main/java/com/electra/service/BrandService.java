@@ -5,6 +5,7 @@ import com.electra.repository.BrandRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -15,11 +16,13 @@ public class BrandService {
     @Autowired
     private BrandRepository brandRepository;
 
+    @Cacheable("getAllBrands")
     public List<Brand> getAllBrands() {
         logger.info("Brands Retrieved in Services");
         return brandRepository.findAll();
     }
 
+    @Cacheable("getBrandById")
     public Brand getBrandById(Long id) {
         logger.info("Brand detected by ID in Services");
         return brandRepository.findById(id).orElse(null);

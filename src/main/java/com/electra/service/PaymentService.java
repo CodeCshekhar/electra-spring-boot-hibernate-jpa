@@ -5,6 +5,7 @@ import com.electra.repository.PaymentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -15,11 +16,13 @@ public class PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Cacheable("getAllPayments")
     public List<Payment> getAllPayments() {
         logger.info("Payments Retrieved in Services");
         return paymentRepository.findAll();
     }
 
+    @Cacheable("getPaymentById")
     public Payment getPaymentById(Long id) {
         logger.info("Payment detected by ID in Services");
         return paymentRepository.findById(id).orElse(null);

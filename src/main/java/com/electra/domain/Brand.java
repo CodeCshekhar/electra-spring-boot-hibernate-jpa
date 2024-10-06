@@ -1,24 +1,20 @@
 package com.electra.domain;
 
-import lombok.*;
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.Data;
 
-@Data // Lombok annotation to generate getters, setters, toString, etc.
+import java.util.List;
+
 @Entity
 @Table(name = "brand")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-
+@Data
 public class Brand {
     @Id
-    @ToString.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "name" , nullable = false)
     private String name;
 
-    @Column(name = "description" , nullable = false)
-    private String description;
+    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Product> products;
 }

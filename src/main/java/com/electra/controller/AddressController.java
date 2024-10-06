@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/addresses")
+@RequestMapping("/electra/addresses")
 public class AddressController {
     @Autowired
     private AddressService addressService;

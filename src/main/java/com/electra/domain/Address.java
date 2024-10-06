@@ -1,37 +1,24 @@
 package com.electra.domain;
 
-import lombok.*;
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.Data;
 
-@Builder
-@Data  // Lombok annotation to generate getters, setters, toString, etc.
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
+
 @Entity
-@Table(name ="address")
-
+@Table(name = "address")
+@Data
 public class Address {
     @Id
-    @ToString.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "street" , nullable = false)
     private String street;
-
-    @Column(name = "city" , nullable = false)
     private String city;
-
-    @Column(name = "state" , nullable = false)
     private String state;
-
-    @Column(name = "country" , nullable = false)
     private String country;
+    private String zipCode;
 
-    @Column(name = "postal_code" , nullable = false)
-    private long postalCode;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer; // Link back to Customer
 }
-
-
-

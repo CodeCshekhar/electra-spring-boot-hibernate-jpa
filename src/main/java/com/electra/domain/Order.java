@@ -1,10 +1,11 @@
 package com.electra.domain;
 
-
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "orders") // Change the table name to avoid reserved keyword
 public class Order {

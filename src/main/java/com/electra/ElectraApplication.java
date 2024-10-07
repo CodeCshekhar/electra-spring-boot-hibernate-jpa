@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBootHibernateJpaApplication {
+public class ElectraApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootHibernateJpaApplication.class, args);
+        SpringApplication.run(ElectraApplication.class, args);
     }
 }

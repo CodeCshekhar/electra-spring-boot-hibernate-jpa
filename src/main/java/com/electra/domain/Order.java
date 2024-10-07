@@ -1,33 +1,52 @@
 package com.electra.domain;
 
 
-import java.time.LocalDate;
-import lombok.*;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
-@Data // Lombok annotation to generate getters, setters, toString, etc.
+import java.util.List;
+
 @Entity
-@Table(name = "order")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-
+@Table(name = "orders") // Change the table name to avoid reserved keyword
 public class Order {
 
     @Id
-    @ToString.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "product" , nullable = false , unique = true , updatable = false)
-    private Product product;
-
-    @Column(name = "customer_details" , nullable = false , unique = true , updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @Column(name = "supplier_details" , nullable = false , unique = true , updatable = false )
-    private Supplier supplier;
+    @ManyToMany
+    @JoinTable(
+            name = "order_product", // You might need to create a join table for many-to-many relationship
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> products;
 
-    @Column(name = "order_date" , nullable = false , updatable = false)
-    private LocalDate orderDate;
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }

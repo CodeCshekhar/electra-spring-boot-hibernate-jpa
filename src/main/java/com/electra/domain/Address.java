@@ -19,6 +19,6 @@ public class Address {
     private String zipCode;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_name")
     private Customer customer; // Link back to Customer
 }

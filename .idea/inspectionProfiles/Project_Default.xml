@@ -6,15 +6,27 @@
       <option name="ignoredModules">
         <list>
           <option value="electra-springboot-hibernate-jpa" />
+          <option value="electra-springboot-hibernate-jpa" />
+          <option value="electra-springboot-hibernate-jpa" />
+          <option value="electra-springboot-hibernate-jpa" />
+          <option value="electra-springboot-hibernate-jpa" />
         </list>
       </option>
       <option name="ignoredPackages">
         <list>
           <option value="org.apache.tomcat.embed:tomcat-embed-core:10.1.11" />
+          <option value="dom4j:dom4j:1.6.1" />
+          <option value="com.google.protobuf:protobuf-java:3.11.4" />
+          <option value="ch.qos.logback:logback-classic:1.4.5" />
+          <option value="com.jayway.jsonpath:json-path:2.7.0" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
         </list>
       </option>

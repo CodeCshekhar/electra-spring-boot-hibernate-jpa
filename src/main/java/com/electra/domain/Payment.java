@@ -1,33 +1,20 @@
 package com.electra.domain;
 
-import java.time.LocalDate;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.Data;
 
-import javax.persistence.*;
 
-@Data // Lombok annotation to generate getters, setters, toString, etc.
 @Entity
 @Table(name = "payment")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-
-public class Payment{
-
+@Data
+public class Payment {
     @Id
-    @ToString.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "amount" , nullable = false , updatable = false)
-    private Double amount;
+    private double amount;
 
-    @Column(name = "payment_date" , nullable = false , updatable = false)
-    private LocalDate paymentDate;
-
-    @Column(name = "customer_details" , nullable = false , updatable = false)
-    private Customer customer;
-
-    @Column(name =  "order_details" , nullable = false ,updatable = false)
-    private Order order;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer; // Link back to Customer
 }

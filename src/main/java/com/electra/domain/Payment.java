@@ -15,6 +15,6 @@ public class Payment {
     private double amount;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_name")
     private Customer customer; // Link back to Customer
 }

@@ -1,27 +1,28 @@
 package com.electra.domain;
 
 import java.time.LocalDate;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
-@Data
-@Builder
 @Entity
-@Table(name = "Order")
+@Table(name = "orders")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne // Assuming multiple orders can have the same product
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne // Assuming multiple orders can be made by the same customer
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToOne // Assuming multiple orders can come from the same supplier
+    @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 

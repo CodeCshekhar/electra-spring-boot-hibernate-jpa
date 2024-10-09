@@ -1,21 +1,23 @@
 package com.electra.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
-@Data
-@Builder
 @Entity
-@Table(name = "Customer")
+@Table(name = "customers")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
+
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL) // Adjust cascade as needed
-    @JoinColumn(name = "address_id") // Foreign key for Address
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
     private Address address;
 }

@@ -9,10 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/brands")
+@RequestMapping("/Electra/brands")
 public class BrandController {
     private static final Logger logger = LoggerFactory.getLogger(BrandController.class);
 
@@ -25,27 +24,32 @@ public class BrandController {
         return ResponseEntity.ok(brandService.retrieveBrands());
     }
 
-    @PostMapping
-    public ResponseEntity<Brand> storeBrand(@RequestBody Brand brand) {
-        logger.info("Storing brand");
-        return ResponseEntity.ok(brandService.storeBrand(brand));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteBrand(@PathVariable long id) {
-        logger.info("Deleting brand with id: {}", id);
-        return ResponseEntity.ok(brandService.deleteBrand(id));
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Brand>> search(@PathVariable long id) {
-        logger.info("Searching for brand with id: {}", id);
-        return ResponseEntity.ok(brandService.search(id));
+    public ResponseEntity<Brand> getBrandById(@PathVariable long id) {
+        logger.info("Retrieving brand by ID: {}", id);
+        Brand brand = brandService.search(id).orElse(null);
+        if (brand != null) {
+            return ResponseEntity.ok(brand);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<Brand> createBrand(@RequestBody Brand brand) {
+        logger.info("Creating brand");
+        return ResponseEntity.ok(brandService.storeBrand(brand));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Brand> updateBrand(@PathVariable long id, @RequestBody Brand brand) {
-        logger.info("Updating brand with id: {}", id);
+        logger.info("Updating brand with ID: {}", id);
         return ResponseEntity.ok(brandService.updateBrand(brand));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBrand(@PathVariable long id) {
+        logger.info("Deleting brand with ID: {}", id);
+        brandService.deleteBrand(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -26,10 +26,9 @@ public class PaymentService {
         return repo.save(payment);
     }
 
-    public String deletePayment(long id) {
+    public void deletePayment(long id) {
         logger.info("Inside PaymentService.deletePayment()");
         repo.deleteById(id);
-        return "Payment Deleted";
     }
 
     public Optional<Payment> search(long id) {

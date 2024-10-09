@@ -26,10 +26,9 @@ public class SupplierService {
         return repo.save(supplier);
     }
 
-    public String deleteSupplier(long id) {
+    public void deleteSupplier(long id) {
         logger.info("Inside SupplierService.deleteSupplier()");
         repo.deleteById(id);
-        return "Supplier Deleted";
     }
 
     public Optional<Supplier> search(long id) {

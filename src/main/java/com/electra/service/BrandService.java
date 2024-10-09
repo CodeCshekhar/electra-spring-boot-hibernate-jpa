@@ -26,10 +26,9 @@ public class BrandService {
         return repo.save(brand);
     }
 
-    public String deleteBrand(long id) {
+    public void deleteBrand(long id) {
         logger.info("Inside BrandService.deleteBrand()");
         repo.deleteById(id);
-        return "Brand Deleted";
     }
 
     public Optional<Brand> search(long id) {

@@ -26,10 +26,9 @@ public class AddressService {
         return repo.save(address);
     }
 
-    public String deleteAddress(long id) {
+    public void deleteAddress(long id) {
         logger.info("Inside AddressService.deleteAddress()");
         repo.deleteById(id);
-        return "Address Deleted";
     }
 
     public Optional<Address> search(long id) {

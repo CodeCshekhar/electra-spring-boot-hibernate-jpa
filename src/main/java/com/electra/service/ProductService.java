@@ -26,10 +26,9 @@ public class ProductService {
         return repo.save(product);
     }
 
-    public String deleteProduct(long id) {
+    public void deleteProduct(long id) {
         logger.info("Inside ProductService.deleteProduct()");
         repo.deleteById(id);
-        return "Product Deleted";
     }
 
     public Optional<Product> search(long id) {

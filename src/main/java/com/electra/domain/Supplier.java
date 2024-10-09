@@ -1,17 +1,19 @@
 package com.electra.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
-@Data
-@Builder
 @Entity
-@Table(name = "Supplier")
+@Table(name = "suppliers")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
-    private String contactInfo;
+
+    private String contactInfo; // Changed to camelCase for consistency
 }

@@ -9,10 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/Electra/customers")
 public class CustomerController {
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
@@ -25,27 +24,32 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.retrieveCustomers());
     }
 
-    @PostMapping
-    public ResponseEntity<Customer> storeCustomer(@RequestBody Customer customer) {
-        logger.info("Storing customer");
-        return ResponseEntity.ok(customerService.storeCustomer(customer));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable long id) {
-        logger.info("Deleting customer with id: {}", id);
-        return ResponseEntity.ok(customerService.deleteCustomer(id));
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Customer>> search(@PathVariable long id) {
-        logger.info("Searching for customer with id: {}", id);
-        return ResponseEntity.ok(customerService.search(id));
+    public ResponseEntity<Customer> getCustomerById(@PathVariable long id) {
+        logger.info("Retrieving customer by ID: {}", id);
+        Customer customer = customerService.search(id).orElse(null);
+        if (customer != null) {
+            return ResponseEntity.ok(customer);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+        logger.info("Creating customer");
+        return ResponseEntity.ok(customerService.storeCustomer(customer));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable long id, @RequestBody Customer customer) {
-        logger.info("Updating customer with id: {}", id);
+        logger.info("Updating customer with ID: {}", id);
         return ResponseEntity.ok(customerService.updateCustomer(customer));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable long id) {
+        logger.info("Deleting customer with ID: {}", id);
+        customerService.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
     }
 }

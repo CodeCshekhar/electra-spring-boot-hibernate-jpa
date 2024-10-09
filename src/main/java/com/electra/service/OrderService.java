@@ -26,10 +26,9 @@ public class OrderService {
         return repo.save(order);
     }
 
-    public String deleteOrder(long id) {
+    public void deleteOrder(long id) {
         logger.info("Inside OrderService.deleteOrder()");
         repo.deleteById(id);
-        return "Order Deleted";
     }
 
     public Optional<Order> search(long id) {

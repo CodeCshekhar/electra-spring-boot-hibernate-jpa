@@ -26,10 +26,9 @@ public class CustomerService {
         return customerRepo.save(customer);
     }
 
-    public String deleteCustomer(long id) {
+    public void deleteCustomer(long id) {
         logger.info("Inside CustomerService.deleteCustomer()");
         customerRepo.deleteById(id);
-        return "Customer Deleted";
     }
 
     public Optional<Customer> search(long customerId) {

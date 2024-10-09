@@ -9,10 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/addresses")
+@RequestMapping("/Electra/addresses")
 public class AddressController {
     private static final Logger logger = LoggerFactory.getLogger(AddressController.class);
 
@@ -25,27 +24,32 @@ public class AddressController {
         return ResponseEntity.ok(addressService.retrieveAddresses());
     }
 
-    @PostMapping
-    public ResponseEntity<Address> storeAddress(@RequestBody Address address) {
-        logger.info("Storing address");
-        return ResponseEntity.ok(addressService.storeAddress(address));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAddress(@PathVariable long id) {
-        logger.info("Deleting address with id: {}", id);
-        return ResponseEntity.ok(addressService.deleteAddress(id));
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Address>> search(@PathVariable long id) {
-        logger.info("Searching for address with id: {}", id);
-        return ResponseEntity.ok(addressService.search(id));
+    public ResponseEntity<Address> getAddressById(@PathVariable long id) {
+        logger.info("Retrieving address by ID: {}", id);
+        Address address = addressService.search(id).orElse(null);
+        if (address != null) {
+            return ResponseEntity.ok(address);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
+        logger.info("Creating address");
+        return ResponseEntity.ok(addressService.storeAddress(address));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Address> updateAddress(@PathVariable long id, @RequestBody Address address) {
-        logger.info("Updating address with id: {}", id);
+        logger.info("Updating address with ID: {}", id);
         return ResponseEntity.ok(addressService.updateAddress(address));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAddress(@PathVariable long id) {
+        logger.info("Deleting address with ID: {}", id);
+        addressService.deleteAddress(id);
+        return ResponseEntity.noContent().build();
     }
 }

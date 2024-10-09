@@ -9,10 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/suppliers")
+@RequestMapping("/Electra/suppliers")
 public class SupplierController {
     private static final Logger logger = LoggerFactory.getLogger(SupplierController.class);
 
@@ -25,27 +24,32 @@ public class SupplierController {
         return ResponseEntity.ok(supplierService.retrieveSuppliers());
     }
 
-    @PostMapping
-    public ResponseEntity<Supplier> storeSupplier(@RequestBody Supplier supplier) {
-        logger.info("Storing supplier");
-        return ResponseEntity.ok(supplierService.storeSupplier(supplier));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSupplier(@PathVariable long id) {
-        logger.info("Deleting supplier with id: {}", id);
-        return ResponseEntity.ok(supplierService.deleteSupplier(id));
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Supplier>> search(@PathVariable long id) {
-        logger.info("Searching for supplier with id: {}", id);
-        return ResponseEntity.ok(supplierService.search(id));
+    public ResponseEntity<Supplier> getSupplierById(@PathVariable long id) {
+        logger.info("Retrieving supplier by ID: {}", id);
+        Supplier supplier = supplierService.search(id).orElse(null);
+        if (supplier != null) {
+            return ResponseEntity.ok(supplier);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier) {
+        logger.info("Creating supplier");
+        return ResponseEntity.ok(supplierService.storeSupplier(supplier));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Supplier> updateSupplier(@PathVariable long id, @RequestBody Supplier supplier) {
-        logger.info("Updating supplier with id: {}", id);
+        logger.info("Updating supplier with ID: {}", id);
         return ResponseEntity.ok(supplierService.updateSupplier(supplier));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSupplier(@PathVariable long id) {
+        logger.info("Deleting supplier with ID: {}", id);
+        supplierService.deleteSupplier(id);
+        return ResponseEntity.noContent().build();
     }
 }

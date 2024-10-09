@@ -9,10 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/Electra/orders")
 public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
@@ -25,27 +24,32 @@ public class OrderController {
         return ResponseEntity.ok(orderService.retrieveOrders());
     }
 
-    @PostMapping
-    public ResponseEntity<Order> storeOrder(@RequestBody Order order) {
-        logger.info("Storing order");
-        return ResponseEntity.ok(orderService.storeOrder(order));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteOrder(@PathVariable long id) {
-        logger.info("Deleting order with id: {}", id);
-        return ResponseEntity.ok(orderService.deleteOrder(id));
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Order>> search(@PathVariable long id) {
-        logger.info("Searching for order with id: {}", id);
-        return ResponseEntity.ok(orderService.search(id));
+    public ResponseEntity<Order> getOrderById(@PathVariable long id) {
+        logger.info("Retrieving order by ID: {}", id);
+        Order order = orderService.search(id).orElse(null);
+        if (order != null) {
+            return ResponseEntity.ok(order);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        logger.info("Creating order");
+        return ResponseEntity.ok(orderService.storeOrder(order));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable long id, @RequestBody Order order) {
-        logger.info("Updating order with id: {}", id);
+        logger.info("Updating order with ID: {}", id);
         return ResponseEntity.ok(orderService.updateOrder(order));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable long id) {
+        logger.info("Deleting order with ID: {}", id);
+        orderService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
     }
 }

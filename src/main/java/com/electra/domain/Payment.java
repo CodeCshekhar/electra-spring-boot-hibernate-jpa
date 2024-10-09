@@ -1,20 +1,26 @@
 package com.electra.domain;
 
+import java.time.LocalDate;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-
-@Entity
-@Table(name = "payment")
 @Data
+@Builder
+@Entity
+@Table(name = "Payment")
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    private double amount;
+    private Double amount;
+    private LocalDate paymentDate;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_name")
-    private Customer customer; // Link back to Customer
+    @ManyToOne // Assuming multiple payments can be made by the same customer
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @ManyToOne // Assuming multiple payments can be related to the same order
+    @JoinColumn(name = "order_id")
+    private Order order;
 }

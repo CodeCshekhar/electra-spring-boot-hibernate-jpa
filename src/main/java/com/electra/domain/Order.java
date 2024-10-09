@@ -1,28 +1,29 @@
 package com.electra.domain;
 
+import java.time.LocalDate;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Data
+@Builder
 @Entity
-@Table(name = "orders") // Change the table name to avoid reserved keyword
+@Table(name = "Order")
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @ManyToOne // Assuming multiple orders can have the same product
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne // Assuming multiple orders can be made by the same customer
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_product", // You might need to create a join table for many-to-many relationship
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;
+    @ManyToOne // Assuming multiple orders can come from the same supplier
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+
+    private LocalDate orderDate;
 }

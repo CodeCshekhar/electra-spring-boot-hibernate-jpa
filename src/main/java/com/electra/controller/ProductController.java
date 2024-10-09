@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/electra/product")
+@RequestMapping("/api/products")
 public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
@@ -18,41 +20,32 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        logger.info("Retrieving Products from Get in Controller");
-        return productService.getAllProducts();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        logger.info("Retrieving Product from Get by ID in Controller");
-        Product product = productService.getProductById(id);
-        if (product != null) {
-            return ResponseEntity.ok(product);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<List<Product>> retrieveProducts() {
+        logger.info("Retrieving all products");
+        return ResponseEntity.ok(productService.retrieveProducts());
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        logger.info("Creating Product from Post in Controller");
-        return productService.createProduct(product);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        logger.info("Updating Product from Put in Controller");
-        Product updatedProduct = productService.updateProduct(id, product);
-        if (updatedProduct != null) {
-            return ResponseEntity.ok(updatedProduct);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Product> storeProduct(@RequestBody Product product) {
+        logger.info("Storing product");
+        return ResponseEntity.ok(productService.storeProduct(product));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        logger.info("Deleting Product from delete in Controller");
-        productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteProduct(@PathVariable long id) {
+        logger.info("Deleting product with id: {}", id);
+        return ResponseEntity.ok(productService.deleteProduct(id));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Product>> search(@PathVariable long id) {
+        logger.info("Searching for product with id: {}", id);
+        return ResponseEntity.ok(productService.search(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product product) {
+        logger.info("Updating product with id: {}", id);
+        return ResponseEntity.ok(productService.updateProduct(product));
     }
 }

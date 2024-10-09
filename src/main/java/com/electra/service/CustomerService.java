@@ -2,31 +2,43 @@ package com.electra.service;
 
 import com.electra.domain.Customer;
 import com.electra.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class CustomerService {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
+
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerRepository customerRepo;
 
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
+    public List<Customer> retrieveCustomers() {
+        logger.info("Inside CustomerService.retrieveCustomers()");
+        return customerRepo.findAll();
     }
 
-    public Optional<Customer> findById(Long id) {
-        return customerRepository.findById(id);
+    public Customer storeCustomer(Customer customer) {
+        logger.info("Inside CustomerService.storeCustomer()");
+        return customerRepo.save(customer);
     }
 
-    public Customer save(Customer customer) {
-        return customerRepository.save(customer);
+    public String deleteCustomer(long id) {
+        logger.info("Inside CustomerService.deleteCustomer()");
+        customerRepo.deleteById(id);
+        return "Customer Deleted";
     }
 
-    public void delete(Long id) {
-        customerRepository.deleteById(id);
+    public Optional<Customer> search(long customerId) {
+        logger.info("Inside CustomerService.search()");
+        return customerRepo.findById(customerId);
+    }
+
+    public Customer updateCustomer(Customer customer) {
+        logger.info("Inside CustomerService.updateCustomer()");
+        return customerRepo.save(customer);
     }
 }

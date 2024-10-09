@@ -1,24 +1,20 @@
 package com.electra.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-
-@Entity
-@Table(name = "address")
 @Data
+@Entity
+@Table(name = "Address")
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String street;
     private String city;
     private String state;
     private String country;
-    private String zipCode;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_name")
-    private Customer customer; // Link back to Customer
+    private long postalCode;
 }

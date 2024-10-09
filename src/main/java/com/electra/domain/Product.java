@@ -1,34 +1,22 @@
 package com.electra.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-import java.util.List;
-
-
-@Entity
-@Table(name = "product")
 @Data
+@Builder
+@Entity
+@Table(name = "Product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String name;
-    private double price;
+    private String description;
+    private Double price;
 
-    @ManyToOne
+    @ManyToOne // Assuming a product can belong to one brand
     @JoinColumn(name = "brand_id")
     private Brand brand;
-
-    @ManyToMany(mappedBy = "products")
-    private List<Order> order;
-
-    @ManyToMany
-    @JoinTable(
-            name = "product_supplier",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "supplier_id")
-    )
-    private List<Supplier> suppliers;
 }

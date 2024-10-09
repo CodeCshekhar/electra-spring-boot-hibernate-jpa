@@ -1,20 +1,17 @@
 package com.electra.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-import java.util.List;
-
-@Entity
-@Table(name = "brand")
 @Data
+@Builder
+@Entity
+@Table(name = "Brand")
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String name;
-
-    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Product> products;
+    private String description;
 }

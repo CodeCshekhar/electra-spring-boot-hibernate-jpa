@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/electra/supplier")
+@RequestMapping("/api/suppliers")
 public class SupplierController {
     private static final Logger logger = LoggerFactory.getLogger(SupplierController.class);
 
@@ -18,41 +20,32 @@ public class SupplierController {
     private SupplierService supplierService;
 
     @GetMapping
-    public List<Supplier> getAllSuppliers() {
-        logger.info("Retrieving Suppliers from Get in Controller");
-        return supplierService.getAllSuppliers();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Supplier> getSupplierById(@PathVariable Long id) {
-        logger.info("Retrieving Supplier from Get by ID in Controller");
-        Supplier supplier = supplierService.getSupplierById(id);
-        if (supplier != null) {
-            return ResponseEntity.ok(supplier);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<List<Supplier>> retrieveSuppliers() {
+        logger.info("Retrieving all suppliers");
+        return ResponseEntity.ok(supplierService.retrieveSuppliers());
     }
 
     @PostMapping
-    public Supplier createSupplier(@RequestBody Supplier supplier) {
-        logger.info("Creating Supplier from Post in Controller");
-        return supplierService.createSupplier(supplier);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Supplier> updateSupplier(@PathVariable Long id, @RequestBody Supplier supplier) {
-        logger.info("Updating Supplier from Put in Controller");
-        Supplier updatedSupplier = supplierService.updateSupplier(id, supplier);
-        if (updatedSupplier != null) {
-            return ResponseEntity.ok(updatedSupplier);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Supplier> storeSupplier(@RequestBody Supplier supplier) {
+        logger.info("Storing supplier");
+        return ResponseEntity.ok(supplierService.storeSupplier(supplier));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSupplier(@PathVariable Long id) {
-        logger.info("Deleting Supplier from delete in Controller");
-        supplierService.deleteSupplier(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteSupplier(@PathVariable long id) {
+        logger.info("Deleting supplier with id: {}", id);
+        return ResponseEntity.ok(supplierService.deleteSupplier(id));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Supplier>> search(@PathVariable long id) {
+        logger.info("Searching for supplier with id: {}", id);
+        return ResponseEntity.ok(supplierService.search(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Supplier> updateSupplier(@PathVariable long id, @RequestBody Supplier supplier) {
+        logger.info("Updating supplier with id: {}", id);
+        return ResponseEntity.ok(supplierService.updateSupplier(supplier));
     }
 }

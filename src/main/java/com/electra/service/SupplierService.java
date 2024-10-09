@@ -5,49 +5,40 @@ import com.electra.repository.SupplierRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SupplierService {
     private static final Logger logger = LoggerFactory.getLogger(SupplierService.class);
 
     @Autowired
-    private SupplierRepository supplierRepository;
+    private SupplierRepository repo;
 
-    @Cacheable("getAllSuppliers")
-    public List<Supplier> getAllSuppliers() {
-        logger.info("Suppliers Retrieved in Services");
-        return supplierRepository.findAll();
+    public List<Supplier> retrieveSuppliers() {
+        logger.info("Inside SupplierService.retrieveSuppliers()");
+        return repo.findAll();
     }
 
-    @Cacheable("getSupplierById")
-    public Supplier getSupplierById(Long id) {
-        logger.info("Supplier detected by ID in Services");
-        return supplierRepository.findById(id).orElse(null);
+    public Supplier storeSupplier(Supplier supplier) {
+        logger.info("Inside SupplierService.storeSupplier()");
+        return repo.save(supplier);
     }
 
-    public Supplier createSupplier(Supplier supplier) {
-        logger.info("Supplier Created in Services");
-        return supplierRepository.save(supplier);
+    public String deleteSupplier(long id) {
+        logger.info("Inside SupplierService.deleteSupplier()");
+        repo.deleteById(id);
+        return "Supplier Deleted";
     }
 
-    public Supplier updateSupplier(Long id, Supplier updatedSupplier) {
-        Supplier supplier = supplierRepository.findById(id).orElse(null);
-        if (supplier != null) {
-            supplier.setName(updatedSupplier.getName());
-            supplier.setContactInfo(updatedSupplier.getContactInfo());
-            logger.info("Supplier Updated in Services");
-            return supplierRepository.save(supplier);
-        }
-        return null;
+    public Optional<Supplier> search(long id) {
+        logger.info("Inside SupplierService.search()");
+        return repo.findById(id);
     }
 
-    public void deleteSupplier(Long id) {
-        logger.info("Payment deleted");
-        supplierRepository.deleteById(id);
+    public Supplier updateSupplier(Supplier supplier) {
+        logger.info("Inside SupplierService.updateSupplier()");
+        return repo.save(supplier);
     }
-
 }

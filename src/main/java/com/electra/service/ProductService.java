@@ -5,49 +5,40 @@ import com.electra.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
     private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductRepository repo;
 
-    @Cacheable("getAllProducts")
-    public List<Product> getAllProducts() {
-        logger.info("Products Retrieved in Services");
-        return productRepository.findAll();
+    public List<Product> retrieveProducts() {
+        logger.info("Inside ProductService.retrieveProducts()");
+        return repo.findAll();
     }
 
-    @Cacheable("getProductById")
-    public Product getProductById(Long id) {
-        logger.info("Product detected by ID in Services");
-        return productRepository.findById(id).orElse(null);
+    public Product storeProduct(Product product) {
+        logger.info("Inside ProductService.storeProduct()");
+        return repo.save(product);
     }
 
-    public Product createProduct(Product product) {
-        logger.info("Product Created in Services");
-        return productRepository.save(product);
+    public String deleteProduct(long id) {
+        logger.info("Inside ProductService.deleteProduct()");
+        repo.deleteById(id);
+        return "Product Deleted";
     }
 
-    public Product updateProduct(Long id, Product updatedProduct) {
-        Product product = productRepository.findById(id).orElse(null);
-        if (product != null) {
-            product.setName(updatedProduct.getName());
-            product.setDescription(updatedProduct.getDescription());
-            product.setPrice(updatedProduct.getPrice());
-            product.setBrand(updatedProduct.getBrand());
-            logger.info("Product Updated in Services");
-            return productRepository.save(product);
-        }
-        return null;
+    public Optional<Product> search(long id) {
+        logger.info("Inside ProductService.search()");
+        return repo.findById(id);
     }
 
-    public void deleteProduct(Long id) {
-        logger.info("Product deleted");
-        productRepository.deleteById(id);
+    public Product updateProduct(Product product) {
+        logger.info("Inside ProductService.updateProduct()");
+        return repo.save(product);
     }
 }

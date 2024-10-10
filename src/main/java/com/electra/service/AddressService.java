@@ -1,43 +1,14 @@
 package com.electra.service;
 
-import com.electra.domain.Address;
-import com.electra.repository.AddressRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.electra.model.AddressModel;
+
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class AddressService {
-    private static final Logger logger = LoggerFactory.getLogger(AddressService.class);
+public interface AddressService {
 
-    @Autowired
-    private AddressRepository repo;
+    AddressModel saveAddress(AddressModel address);
+    boolean deleteAddress(final Long addressId);
+    List<AddressModel> getAllAddresses();
+    AddressModel getAddressById(final Long addressId);
 
-    public List<Address> retrieveAddresses() {
-        logger.info("Inside AddressService.retrieveAddresses()");
-        return repo.findAll();
-    }
-
-    public Address storeAddress(Address address) {
-        logger.info("Inside AddressService.storeAddress()");
-        return repo.save(address);
-    }
-
-    public void deleteAddress(long id) {
-        logger.info("Inside AddressService.deleteAddress()");
-        repo.deleteById(id);
-    }
-
-    public Optional<Address> search(long id) {
-        logger.info("Inside AddressService.search()");
-        return repo.findById(id);
-    }
-
-    public Address updateAddress( Address address) {
-        logger.info("Inside AddressService.updateAddress()");;
-        return repo.save(address);
-    }
 }

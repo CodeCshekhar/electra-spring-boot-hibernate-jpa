@@ -1,30 +1,39 @@
 package com.electra.domain;
 
-import javax.persistence.*;
-import lombok.*;
 
-@Entity
-@Table(name = "addresses")
-@Data
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Getter
+@Setter
+@Entity(name = "Address")
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+
 public class Address {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Exclude
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "street")
     private String street;
-
-    @Column(name = "city")
     private String city;
-
-    @Column(name = "state")
     private String state;
-
-    @Column(name = "country")
     private String country;
+    private long postalCode;
 
-    @Column(name = "postal_code")
-    private String postalCode; // Changed to snake_case for consistency
+    public Address(long id, String street, String city, String state, String country, long postalCode) {
+        this.id = id;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.postalCode = postalCode;
+    }
 }
+
+
+

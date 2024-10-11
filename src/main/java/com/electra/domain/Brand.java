@@ -1,19 +1,30 @@
 package com.electra.domain;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity
-@Table(name = "brands")
-@Data
+@Getter
+@Setter
+@Entity(name = "Brand")
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+
 public class Brand {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Exclude
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
     private String name;
 
     private String description;
+
+    public Brand(long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 }

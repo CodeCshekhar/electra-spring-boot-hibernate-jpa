@@ -1,55 +1,37 @@
 package com.electra.controller;
 
-import com.electra.domain.Order;
+import com.electra.model.OrderModel;
 import com.electra.service.OrderService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/Electra/orders")
-public class OrderController {
-    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
-    @Autowired
+@RestController
+@RequestMapping(value = "/electra")
+public class OrderController {
+
+    @Resource(name = "orderService")
     private OrderService orderService;
 
-    @GetMapping
-    public ResponseEntity<List<Order>> retrieveOrders() {
-        logger.info("Retrieving all orders");
-        return ResponseEntity.ok(orderService.retrieveOrders());
+    @GetMapping("/orders")
+    public List<OrderModel> getOrders(){
+        return orderService.getAllOrders();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable long id) {
-        logger.info("Retrieving order by ID: {}", id);
-        Order order = orderService.search(id).orElse(null);
-        if (order != null) {
-            return ResponseEntity.ok(order);
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping("/order/{id}")
+    public OrderModel getOrder(@PathVariable Long id){
+        return orderService.getOrderById(id);
     }
 
-    @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        logger.info("Creating order");
-        return ResponseEntity.ok(orderService.storeOrder(order));
+    @PostMapping("/order")
+    public OrderModel saveOrder(final @RequestBody OrderModel orderModel){
+        return orderService.saveOrder(orderModel);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable long id, @RequestBody Order order) {
-        logger.info("Updating order with ID: {}", id);
-        return ResponseEntity.ok(orderService.updateOrder(order));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable long id) {
-        logger.info("Deleting order with ID: {}", id);
-        orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/order/{id}")
+    public Boolean deleteOrder(@PathVariable Long id){
+        return orderService.deleteOrder(id);
     }
 }

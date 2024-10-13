@@ -1,28 +1,38 @@
 package com.electra.domain;
 
 import java.time.LocalDate;
-import javax.persistence.*;
-import lombok.*;
 
-@Entity
-@Table(name = "payments")
-@Data
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Getter
+@Setter
+@Entity(name = "Payment")
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
-public class Payment {
+@EntityListeners(AuditingEntityListener.class)
+
+public class Payment{
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Exclude
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
     private Double amount;
 
     private LocalDate paymentDate;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
     private Order order;
+
+    public Payment(long id, Double amount, LocalDate paymentDate, Customer customer, Order order) {
+        this.id = id;
+        this.amount = amount;
+        this.paymentDate = paymentDate;
+        this.customer = customer;
+        this.order = order;
+    }
 }

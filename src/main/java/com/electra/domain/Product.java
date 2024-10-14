@@ -1,16 +1,20 @@
 package com.electra.domain;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity
-@Table(name = "products")
-@Data
+@Getter
+@Setter
+@Entity(name = "Product")
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Product {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Exclude
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
     private String name;
@@ -19,7 +23,13 @@ public class Product {
 
     private Double price;
 
-    @ManyToOne
-    @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    public Product(long id, String name, String description, Double price, Brand brand) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.brand = brand;
+    }
 }

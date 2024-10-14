@@ -1,55 +1,36 @@
 package com.electra.controller;
 
-import com.electra.domain.Product;
+import com.electra.model.ProductModel;
 import com.electra.service.ProductService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/Electra/products")
+@RequestMapping(value = "/electra")
 public class ProductController {
-    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    @Autowired
+    @Resource(name = "productService")
     private ProductService productService;
 
-    @GetMapping
-    public ResponseEntity<List<Product>> retrieveProducts() {
-        logger.info("Retrieving all products");
-        return ResponseEntity.ok(productService.retrieveProducts());
+    @GetMapping("/products")
+    public List<ProductModel> getProducts(){
+        return productService.getAllProducts();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable long id) {
-        logger.info("Retrieving product by ID: {}", id);
-        Product product = productService.search(id).orElse(null);
-        if (product != null) {
-            return ResponseEntity.ok(product);
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping("/product/{id}")
+    public ProductModel getProduct(@PathVariable Long id){
+        return productService.getProductById(id);
     }
 
-    @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        logger.info("Creating product");
-        return ResponseEntity.ok(productService.storeProduct(product));
+    @PostMapping("/product")
+    public ProductModel saveProduct(final @RequestBody ProductModel productModel){
+        return productService.saveProduct(productModel);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product product) {
-        logger.info("Updating product with ID: {}", id);
-        return ResponseEntity.ok(productService.updateProduct(product));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable long id) {
-        logger.info("Deleting product with ID: {}", id);
-        productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/product/{id}")
+    public Boolean deleteProduct(@PathVariable Long id){
+        return productService.deleteProduct(id);
     }
 }

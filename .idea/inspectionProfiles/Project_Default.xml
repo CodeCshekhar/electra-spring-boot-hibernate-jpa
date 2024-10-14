@@ -11,6 +11,7 @@
           <option value="electra-springboot-hibernate-jpa" />
           <option value="electra-springboot-hibernate-jpa" />
           <option value="electra-springboot-hibernate-jpa" />
+          <option value="electra-springboot-hibernate-jpa" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -21,10 +22,12 @@
           <option value="ch.qos.logback:logback-classic:1.4.5" />
           <option value="com.jayway.jsonpath:json-path:2.7.0" />
           <option value="org.jboss.xnio:xnio-api:3.8.8.Final" />
+          <option value="org.springframework:spring-web:6.1.12" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />

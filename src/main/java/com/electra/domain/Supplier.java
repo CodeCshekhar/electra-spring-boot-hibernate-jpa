@@ -1,19 +1,30 @@
 package com.electra.domain;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity
-@Table(name = "suppliers")
-@Data
+@Getter
+@Setter
+@Entity(name = "Supplier")
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+
 public class Supplier {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Exclude
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
     private String name;
 
-    private String contactInfo; // Changed to camelCase for consistency
+    private String contactInfo;
+
+    public Supplier(long id, String name, String contactInfo) {
+        this.id = id;
+        this.name = name;
+        this.contactInfo = contactInfo;
+    }
 }

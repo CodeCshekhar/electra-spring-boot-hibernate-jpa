@@ -1,55 +1,36 @@
 package com.electra.controller;
 
-import com.electra.domain.Supplier;
+import com.electra.model.SupplierModel;
 import com.electra.service.SupplierService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/Electra/suppliers")
+@RequestMapping(value = "/electra")
 public class SupplierController {
-    private static final Logger logger = LoggerFactory.getLogger(SupplierController.class);
 
-    @Autowired
+    @Resource(name = "supplierService")
     private SupplierService supplierService;
 
-    @GetMapping
-    public ResponseEntity<List<Supplier>> retrieveSuppliers() {
-        logger.info("Retrieving all suppliers");
-        return ResponseEntity.ok(supplierService.retrieveSuppliers());
+    @GetMapping("/suppliers")
+    public List<SupplierModel> getSuppliers(){
+        return supplierService.getAllSuppliers();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Supplier> getSupplierById(@PathVariable long id) {
-        logger.info("Retrieving supplier by ID: {}", id);
-        Supplier supplier = supplierService.search(id).orElse(null);
-        if (supplier != null) {
-            return ResponseEntity.ok(supplier);
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping("/supplier/{id}")
+    public SupplierModel getSupplier(@PathVariable Long id){
+        return supplierService.getSupplierById(id);
     }
 
-    @PostMapping
-    public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier) {
-        logger.info("Creating supplier");
-        return ResponseEntity.ok(supplierService.storeSupplier(supplier));
+    @PostMapping("/supplier")
+    public SupplierModel saveSupplier(final @RequestBody SupplierModel supplierModel){
+        return supplierService.saveSupplier(supplierModel);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Supplier> updateSupplier(@PathVariable long id, @RequestBody Supplier supplier) {
-        logger.info("Updating supplier with ID: {}", id);
-        return ResponseEntity.ok(supplierService.updateSupplier(supplier));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSupplier(@PathVariable long id) {
-        logger.info("Deleting supplier with ID: {}", id);
-        supplierService.deleteSupplier(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/supplier/{id}")
+    public Boolean deleteSupplier(@PathVariable Long id){
+        return supplierService.deleteSupplier(id);
     }
 }
